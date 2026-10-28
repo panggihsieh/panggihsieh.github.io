@@ -1,4 +1,4 @@
-import {geometry,carbon,DEMO,FORMULA,SOURCE,validateRecord,parseRecords,summarize,csvCell} from './quest-core.js';
+import {geometry,carbon,DEMO,FORMULA,SOURCE,validateRecord,parseRecords,summarize,latestRecords,csvCell} from './quest-core.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const fmt=(n,d=2)=>n===null?'待補':new Intl.NumberFormat('zh-TW',{maximumFractionDigits:d}).format(n);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -90,8 +90,7 @@ function saveTree(){
 function currentRows(source){
  if(source==='platform')return plants.map(p=>({...p,name:p.label+'｜'+p.species,co2Kg:p.sourceStockCO2e,location:{x:p.x,z:p.z},platform:true}));
  // Use the latest observation per physical tree to avoid counting repeat surveys as new trees.
- const latest=new Map();for(const r of records.filter(r=>source==='demo'?r.demo:!r.demo)){const key=r.platformId||r.id;const old=latest.get(key);if(!old||r.date>old.date||(r.date===old.date&&r.estimatedAt>old.estimatedAt))latest.set(key,r);}
- return [...latest.values()].map(r=>({...r,co2Kg:r.result.co2Kg}));
+ return latestRecords(records,source==='demo').map(r=>({...r,co2Kg:r.result.co2Kg}));
 }
 function sourceOptions(value){return `<option value="platform" ${value==='platform'?'selected':''}>教育部平台校樹資料</option><option value="field" ${value==='field'?'selected':''}>我的實測紀錄（最新一次）</option><option value="demo" ${value==='demo'?'selected':''}>我的示範紀錄（獨立統計）</option>`;}
 function color(v){return v===null?'#8497a3':v>=500?'#1766bf':v>=200?'#229b73':'#d48029';}
@@ -127,6 +126,7 @@ function editRecord(id){const r=records.find(r=>r.id===id);Object.assign(draft,r
 function exportJSON(){download(storageWarning?'校樹原始備份.json':'校樹調查紀錄.json',storageWarning&&storedText?storedText:JSON.stringify({version:1,records},null,2),'application/json');}
 function exportCSV(){const table=[['編號','名稱','樹種','日期','類別','樹高_m','胸圍_cm','胸徑_cm','材積_m3','儲量_kgCO2','方法','係數來源'],...records.map(r=>[r.id,r.name,r.species,r.date,r.demo?'示範':'實測',r.height,r.circumference,r.result.dbhCm,r.result.volume,r.result.co2Kg,r.measurementMethod,r.coefficients?.source||''])];download('校樹調查紀錄.csv','\ufeff'+table.map(r=>r.map(csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8');}
 function render(){page=location.hash.slice(1)||'home';if(!['home','height','carbon','map','reports'].includes(page))page='home';for(const a of $$('nav a')){if(a.hash==='#'+page)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}({home,height:heightPage,carbon:carbonPage,map:mapPage,reports:reportsPage}[page])();if(storageWarning)toast(storageWarning);}
+$('.skip').onclick=e=>{e.preventDefault();$('#main').focus();$('#main').scrollIntoView({block:'start'});};
 $('#teacher-open').onclick=()=>{$('#storage-message').textContent=storageWarning||`本機共 ${records.length} 筆紀錄。匯入會取代現有資料，請先匯出。`;$('#teacher').showModal();};$('[data-close]').onclick=()=>$('#teacher').close();
 $('#contrast').onclick=()=>document.body.classList.toggle('high-contrast');
 $('#demo').onclick=()=>{Object.assign(draft,{coefficientMode:'demo',bcef:DEMO.bcef,r:DEMO.r,cf:DEMO.cf,source:DEMO.source});$('#teacher').close();if(page==='carbon')carbonPage();else location.hash='carbon';toast('已載入示範假設係數，結果會標為教學示範。');};

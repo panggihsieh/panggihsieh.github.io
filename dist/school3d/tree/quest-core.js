@@ -40,7 +40,8 @@ export function validateRecord(r){
  return {...r,result};
 }
 export function parseRecords(text){
- const data=JSON.parse(text);if(data.version!==1||!Array.isArray(data.records)||data.records.length>1000)throw Error('僅支援第 1 版紀錄，最多 1000 筆。');
+ let data;try{data=JSON.parse(text);}catch{throw Error('檔案不是有效的 JSON 格式。');}
+ if(!data||data.version!==1||!Array.isArray(data.records)||data.records.length>1000)throw Error('僅支援第 1 版紀錄，最多 1000 筆。');
  const records=data.records.map(validateRecord);if(new Set(records.map(r=>r.id)).size!==records.length)throw Error('紀錄編號重複。');return records;
 }
 export function summarize(rows){
@@ -48,5 +49,13 @@ export function summarize(rows){
  for(const r of rows){const v=r.co2Kg;const item=bySpecies.get(r.species)||{species:r.species,count:0,total:0,missing:0};item.count++;if(v===null){missing++;item.missing++;}else{total+=v;item.total+=v;}bySpecies.set(r.species,item);}
  for(const item of bySpecies.values())if(item.count===item.missing)item.total=null;
  return {count:rows.length,total:rows.length===missing?null:total,missing,bySpecies:[...bySpecies.values()].sort((a,b)=>(b.total??0)-(a.total??0))};
+}
+export function latestRecords(records,demo){
+ const latest=new Map();
+ for(const r of records.filter(r=>r.demo===demo)){
+  const key=r.platformId||r.id,old=latest.get(key);
+  if(!old||r.date>old.date||(r.date===old.date&&Date.parse(r.estimatedAt)>Date.parse(old.estimatedAt)))latest.set(key,r);
+ }
+ return [...latest.values()];
 }
 export function csvCell(value){const s=String(value??'');return '"'+(/^[=+\-@\t\r]/.test(s)?"'":'')+s.replaceAll('"','""')+'"';}
