@@ -29,7 +29,11 @@ jobs:
           node --check dist/school3d/tree/carbon.js
           node --check dist/school3d/tree/quest.js
           node --check dist/school3d/tree/quest-core.js
+          node --check dist/school3d/tree/field-core.js
+          node --check dist/school3d/tree/field-hardware.js
+          node --check dist/school3d/tree/field-ui.js
           node .github/checks/tree-quest.test.mjs
+          node .github/checks/tree-field.test.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
