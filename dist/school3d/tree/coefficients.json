@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "formulaSource": "https://www.forest.gov.tw/0004712",
+  "checkedAt": "2026-10-29",
+  "verifiedSpeciesProfiles": [],
+  "note": "尚未整理可直接套用本校樹種的有據係數。教師可在網站記錄適用樹種、來源與範圍後自行輸入；此檔案不宣稱任何固定值適用所有樹種。",
+  "teachingExample": {
+    "mode": "demo",
+    "bcef": 0.7,
+    "r": 0.26,
+    "cf": 0.47,
+    "source": "教學假設值，非官方樹種係數"
+  }
+}

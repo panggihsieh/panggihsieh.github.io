@@ -1,25 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>植物碳計算｜大南國小</title><link rel="stylesheet" href="./style.css"></head>
-<body>
-<header><a class="brand" href="./">大南・植物碳計算<span>PLANT CARBON WORKSHEET</span></a><a id="guide-link" href="https://panggihsieh.github.io/school3d/">前往 3D 生態導覽 ↗</a></header>
-<main>
- <div class="heading"><p class="eyebrow">觀察樹木，也記錄照護的足跡</p><h1>植物吸碳與維護排碳</h1><p>選擇植物，填入同一年度的資料，了解吸碳與維護活動排碳的差額。</p></div>
- <div class="layout">
-  <form id="calculator">
-   <section><div class="section-title"><span>01</span><h2>選擇植物</h2></div><label>植物清單<select id="plant" disabled><option>正在載入植物資料…</option></select></label><p id="plant-info" class="hint" role="status"></p><label>計算年度<input id="year" type="number" min="1900" max="2200" step="1" value="2026" required></label></section>
-   <section><div class="section-title"><span>02</span><h2>年度吸碳</h2></div><label>該年度吸碳量（kg CO₂）<input id="uptake" type="number" min="0" max="1000000000" step="any" placeholder="尚未取得可留白" inputmode="decimal"></label><label>吸碳估算方法與來源<input id="uptake-source" maxlength="1000" placeholder="調查報告、計算方法或來源網址"></label><p class="hint">平台儲碳量是累積量，不能直接當作一年吸碳量。留白時仍可計算維護排碳，但不顯示年度差額。</p></section>
-   <section><div class="section-title"><span>03</span><h2>維護活動排碳</h2></div><p class="hint">每筆排碳＝活動量 × 排放係數。請確認活動量與係數的單位相符，並填入係數來源。</p><div id="activities"></div><button type="button" id="add">＋ 新增維護活動</button></section>
-   <p id="error" class="error" role="alert"></p><div class="actions"><button type="submit" class="primary" id="calculate" disabled>計算本年度結果</button><button type="reset">清除輸入</button></div>
-  </form>
-  <aside>
-   <span class="eyebrow">CALCULATION RESULT</span><h2>年度比較</h2><p id="result-context" class="hint">完成左側資料後，即可計算。</p>
-   <div class="metric"><span>維護活動排碳</span><strong id="emissions-result">待計算</strong><small>kg CO₂e／年</small></div>
-   <div class="metric uptake"><span>植物年度吸碳</span><strong id="uptake-result">待補</strong><small>kg CO₂／年</small></div>
-   <div class="balance"><span>年度差額：排碳 − 吸碳</span><strong id="balance-result">尚不比較</strong><p id="balance-note">請填寫同年度吸碳與維護排碳資料。</p></div>
-   <div id="breakdown"></div><button id="download" disabled>匯出計算紀錄 JSON</button><p class="hint">此為所填維護範圍的教學比較，不代表完整校園碳盤查、碳中和或碳權。計算內容不會自動同步到 3D 網站。</p>
-  </aside>
- </div>
- <details><summary>資料來源與計算範圍</summary><p>植物清單取自教育部校園樹木資訊平臺，大南國小 2026-10-28 快照，共 127 株、46 種。平台估算儲碳、胸徑、樹高屬既有紀錄，非本工具現地量測。3 株缺少尺寸及平台儲碳，保持空值。</p><p>維護活動可包括澆灌用電、修剪燃料、運輸等。此工具不自動套用任何排放係數；填寫者需確認適用年度、單位、歸屬範圍及係數來源。若活動服務多株樹，請先合理分攤，避免重複計算。未納入的項目不代表排碳為零。</p><p>植物吸碳以 CO₂ 記錄，與維護排碳 CO₂e 作簡化年度比較；累積儲碳不參與年度差額。匯出的紀錄會包含選擇的植物編號、來源、活動明細及所填數值。</p><a href="https://edutreemap.moe.edu.tw/trees/#/Map?campusCode=104721" target="_blank" rel="noopener">教育部原始植物地圖 ↗</a></details>
-</main><footer>大南國小・植物碳計算工具｜純前端，免登入</footer><script type="module" src="./app.js"></script>
-</body></html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#2176d2"><title>校樹碳匯探險隊｜大南國小</title><link rel="stylesheet" href="./quest.css"></head><body>
+<a class="skip" href="#main">跳到主要內容</a><header><a class="brand" href="#home"><span class="brand-icon">↟</span><span>校樹碳匯探險隊<small>大南國小 · TREE CARBON QUEST</small></span></a><nav aria-label="主要導覽"><a href="#home">首頁</a><a href="#height">量樹高</a><a href="#carbon">胸圍與碳匯</a><a href="#map">校樹地圖</a><a href="#reports">統計報表</a></nav><button id="teacher-open">老師工具</button></header>
+<main id="main" tabindex="-1"><p>正在準備校樹探險工具…</p></main><footer><span>一棵樹，一份觀察，一起認識校園的碳寶藏。</span><a href="../">3D 生態導覽 ↗</a><a href="./maintenance.html">年度維護排碳工具 ↗</a><button id="contrast">高對比</button><span>資料僅儲存在這個瀏覽器</span></footer><p id="toast" role="status" aria-live="polite"></p>
+<dialog id="teacher"><div class="dialog-top"><h2>老師工具與資料管理</h2><button data-close aria-label="關閉老師工具">✕</button></div><p>這是教學估算。示範係數不是任何樹種的官方實測係數；沒有適用係數時，保留材積與缺值。</p><div class="tools"><button id="demo">載入示範係數</button><button id="export-json">匯出 JSON</button><button id="export-csv">匯出 CSV</button><label class="file-button">匯入 JSON<input type="file" id="import-json" accept=".json,application/json"></label><button id="clear-local" class="danger">清除本機紀錄</button></div><p id="storage-message" role="status"></p><details open><summary>計算方法與適用範圍</summary><p>H = 大步數 × 校正步長 + 眼高，只適用 45° 仰角且地面近似等高。斜坡、看不到樹梢、分叉與板根請由教師協助。</p><p>DBH = 胸圍 ÷ π ÷ 100（m）<br>V = DBH² × 0.79 × H × F（m³）<br>CO₂ = V × BCEF × (1 + R) × CF × 44/12 × 1000（kg）</p><p>0.79 為 π/4 的近似；F：闊葉 0.45、針葉 0.50。BCEF 單位 t 生物量/m³，已包含密度轉換，勿再乘木材密度。棕櫚等其他形態不直接套用。</p><p>單次儲存量無法代表每年吸碳；本版不計算年度吸碳或呼吸排碳。平台的 kg CO₂e 與本機的 kg CO₂ 估算各自統計，不相加。</p><p><a href="https://www.forest.gov.tw/0004712" target="_blank" rel="noopener">林業及自然保育署：森林碳匯計算方式 ↗</a>（核對日期：2026-10-29）</p></details><details><summary>量測安全與智慧提示</summary><p>站在安全、平坦的位置，由教師帶隊；不攀樹、不站車道、不走陡坡。先用已知距離校正步長，再用安全的 45° 觀測器確認樹梢。</p><p>提示依輸入條件產生，不使用 AI 辨識，也不自動判定樹種。</p></details></dialog><dialog id="confirm-dialog"><h2>確認資料操作</h2><p id="confirm-message"></p><div class="row"><button id="confirm-cancel">取消</button><button id="confirm-accept" class="primary">確認</button></div></dialog><script type="module" src="./quest.js"></script></body></html>
