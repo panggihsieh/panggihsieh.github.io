@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>大南國小｜3D 生態校園</title>
+  <meta name="description" content="探索大南國小的校園空間、植物碳資訊、鳥類觀察及生態景點。">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+<header class="header">
+  <a class="brand" href="./" aria-label="大南國小生態校園首頁"><span class="brand-mark">森</span><span><strong>大南・生態校園</strong><small>DANAN ECO CAMPUS</small></span></a>
+  <span class="version">校園配置草案 <span>v0.3</span></span>
+  <div class="header-actions"><button id="import-button">匯入資料</button><button id="export-button" class="primary">匯出資料 ↗</button><input id="import-file" type="file" accept="application/json,.json" hidden></div>
+</header>
+<nav class="topics" aria-label="導覽主題">
+  <button class="topic active" data-topic="campus" aria-current="page"><span class="topic-index">01</span><span>校園空間<small>認識校園的位置</small></span></button>
+  <button class="topic" data-topic="carbon"><span class="topic-index">02</span><span>植物碳資訊<small>吸碳與維護排碳</small></span></button>
+  <button class="topic" data-topic="birds"><span class="topic-index">03</span><span>鳥類觀察<small>觀察點・介紹・鳥鳴</small></span></button>
+  <button class="topic" data-topic="ecology"><span class="topic-index">04</span><span>生態景點<small>走進校園的自然</small></span></button>
+</nav>
+<main>
+ <section class="map-panel" aria-label="校園3D地圖">
+  <div class="map-heading"><div><span class="eyebrow">EXPLORE THE CAMPUS</span><h1 id="map-title">從校園，開始探索。</h1><p id="map-subtitle">選擇地圖標記，認識每一處校園空間。</p></div><span class="map-badge">北 N <span id="north-arrow" style="display:inline-block">↑</span></span></div>
+  <div id="viewport"><canvas id="scene" aria-label="可旋轉縮放的3D校園，亦可使用右側清單選取地點"></canvas><div id="markers"></div><div id="loading" role="status">正在載入 3D 校園…</div></div>
+  <div class="map-toolbar" aria-label="地圖控制"><button id="reset-view">全校視角</button><button id="top-view">俯視</button><button id="zoom-in" aria-label="放大地圖">＋</button><button id="zoom-out" aria-label="縮小地圖">－</button></div>
+  <div class="map-footer"><span><i class="dot"></i><span id="map-status">校園配置・位置與高度待確認</span></span><span id="placing-hint">拖曳旋轉 · 滾輪縮放</span></div>
+  <button id="fallback-map" hidden>3D 無法載入，查看平面圖</button>
+ </section>
+ <aside class="sidebar" aria-label="主題內容">
+  <div class="section-heading"><div><span id="section-kicker" class="eyebrow">CAMPUS GUIDE</span><h2 id="section-title">校園空間</h2></div><button id="add-point" class="circle-button" aria-label="新增地點">＋</button></div>
+  <div id="summary"></div>
+  <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜尋名稱或區域" aria-label="搜尋名稱或區域"></label>
+  <label id="species-filter-wrap" class="species-filter" hidden>篩選樹種<select id="species-filter" aria-label="篩選樹種"></select></label><div id="point-list" aria-label="地點清單"></div>
+  <section id="detail" aria-live="polite"></section>
+ </aside>
+</main>
+<footer class="page-footer"><span>大南國小 3D 生態導覽 <span class="muted">／ 示意模型，現地資料持續補充</span></span><a href="https://panggihsieh.github.io/school3d/tree/">植物碳計算 ↗</a><button id="about-button">資料與計算說明</button><span id="storage-state">編輯儲存在此瀏覽器</span></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<dialog id="editor"><form id="edit-form"><div class="dialog-heading"><h2 id="editor-title">編輯地點</h2><button type="button" data-close="editor" aria-label="關閉">✕</button></div><div id="edit-fields"></div><p id="form-error" role="alert" style="color:#a34b38;font-size:13px;line-height:1.7"></p><p class="form-note">儲存在目前瀏覽器；使用「匯出資料」保留備份或分享至其他裝置。</p><div class="form-actions"><button type="button" data-close="editor">取消</button><button type="submit" class="primary">儲存變更</button></div></form></dialog>
+<dialog id="about"><div class="dialog-heading"><h2>資料與計算說明</h2><button data-close="about" aria-label="關閉">✕</button></div><div class="about-body"><h3>校園地圖</h3><p>依 Google Earth 影像與約 78.2 公尺屋頂參考線製作。校門、校舍用途、動線、樹木位置與建築高度均待現地確認。這是配置草案，非測繪圖。</p><h3>教育部樹木資料</h3><p>已整理縣立大南國小 46 種、127 株平台紀錄（2026-10-28 擷取）。124 株有胸徑、樹高及平台估算儲碳，3 株缺值。原始 WGS84 經緯度保留；3D 位置以校舍屋頂參考線近似對齊，樹冠寬度與形狀仍為示意。兩組重疊座標保留獨立編號。</p><p>平台儲碳量使用 kg CO₂e，與每年吸碳量不同；不能直接填入年度吸碳。平台紀錄不表示已完成近期現勘。原始照片不另行轉載，請由單株來源連結查看。</p><h3>吸碳與排碳分開記錄</h3><p>每年吸碳量使用 kg CO₂／年；維護活動排碳使用 kg CO₂e／年。兩者均需填寫同年度的數值及方法來源。沒有資料時顯示「待補」，不視為零。</p><p>年度差額＝已填維護排碳－已填吸碳。只在所有樹木都有完整同年度資料及來源時顯示。這是指定維護範圍的教學比較，不代表校園完整碳盤查、碳中和或可交易碳權。</p><p>胸徑與樹高只作調查紀錄，不會直接套用未知係數推算吸碳。碳儲存量（kg C）與每年吸碳量是不同資料，本版不互相推算。</p><h3>鳥類觀察</h3><p>本主題提供觀察點、介紹與已匯入鳥鳴播放；沒有即時偵測或自動辨識。預留點不代表該處一定有某種鳥。現地不要用鳥音引誘鳥類。</p><h3>資料與音檔</h3><p>資料儲存在此瀏覽器，沒有跨裝置同步或教師帳號。匯入會取代目前的導覽資料，請先匯出備份。音檔匯入後留在本機瀏覽器，可隨 JSON 匯出；請記錄來源及授權。</p><p>參考：<a href="https://www.forest.gov.tw/forest/news/0073985" target="_blank" rel="noopener">林業及自然保育署賞鳥原則</a>、<a href="https://www.tbn.org.tw/about/faq/73324384" target="_blank" rel="noopener">TBN 觀測紀錄欄位</a>。</p></div></dialog>
+<script type="module" src="./app.js"></script>
+</body></html>

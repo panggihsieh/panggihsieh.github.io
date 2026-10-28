@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "points": [
+    {"id":"C01","topic":"campus","name":"B01 長條校舍","area":"操場北側","x":46,"z":-13,"description":"依衛星影像描繪的長條校舍。正式名稱、用途、樓層與出入口待校方確認。","confirmed":false},
+    {"id":"C02","topic":"campus","name":"B02 西南側校舍","area":"操場西南側","x":22,"z":37,"description":"兩組相鄰屋頂的簡化模型，高度為示意值。","confirmed":false},
+    {"id":"C03","topic":"campus","name":"操場與球場","area":"校園中央至東南側","x":68,"z":25,"description":"保留操場與球場的相對位置，作為認識校園與安排導覽的參考。","confirmed":false},
+    {"id":"T01","topic":"carbon","name":"樹木調查點 01","area":"長條校舍前樹帶","x":32.4,"z":-16.6,"description":"預留植物與碳資訊調查點，尚未確認樹種或對應單株。","confirmed":false,"species":"","dbh":null,"height":null,"stock":null,"uptake":null,"emissions":null,"year":null,"method":"","boundary":"修剪、澆灌、運輸等維護活動；實際涵蓋範圍待填"},
+    {"id":"T02","topic":"carbon","name":"樹木調查點 02","area":"操場南側樹帶","x":58,"z":29.7,"description":"可填寫樹種、胸徑、樹高、碳儲存量、年度吸碳及維護活動排碳。","confirmed":false,"species":"","dbh":null,"height":null,"stock":null,"uptake":null,"emissions":null,"year":null,"method":"","boundary":""},
+    {"id":"T03","topic":"carbon","name":"樹木調查點 03","area":"東側樹帶","x":93.5,"z":0,"description":"圖中的樹木為通用模型，樹冠與調查點均需現地核對。","confirmed":false,"species":"","dbh":null,"height":null,"stock":null,"uptake":null,"emissions":null,"year":null,"method":"","boundary":""},
+    {"id":"B01","topic":"birds","name":"東側鳥類觀察點","area":"東側樹帶附近","x":87.6,"z":-6.9,"description":"候選觀察範圍。記下日期、時間、鳥類外觀與行為；沒有看到鳥也可以如實記錄。","confirmed":false,"species":"","observedAt":"","soundSource":"","audioData":""},
+    {"id":"B02","topic":"birds","name":"南側鳥類觀察點","area":"球場南側附近","x":86,"z":46.2,"description":"物種尚待調查。音檔供導覽認識聲音，現地不要播放鳥音吸引鳥類。","confirmed":false,"species":"","observedAt":"","soundSource":"","audioData":""},
+    {"id":"E01","topic":"ecology","name":"校舍前綠帶","area":"長條校舍前","x":45.2,"z":-10.4,"description":"從可通行的地方觀察葉片、樹皮與周邊生物。這是景點規劃候選位置。","confirmed":false,"mission":"描述一片葉子的形狀，不摘取葉片。"},
+    {"id":"E02","topic":"ecology","name":"操場邊的自然","area":"操場南側","x":71.4,"z":25.2,"description":"可規劃觀察草地與樹帶交界的自然現象，實際可通行範圍待確認。","confirmed":false,"mission":"安靜觀察一分鐘，記錄看見或聽見的現象。"},
+    {"id":"E03","topic":"ecology","name":"南側綠地探索","area":"南側樹帶","x":51.8,"z":41.8,"description":"花圃與生態池是否存在及所在位置尚未確認，本版未自行放置。","confirmed":false,"mission":"記下今天的日期、區域與一項觀察。"}
+  ]
+}
