@@ -5,6 +5,11 @@ export const DEMO={bcef:0.7,r:0.26,cf:0.47,source:'教學假設值，非官方�
 export function number(v,label,min=0,max=10000){
  if(typeof v!=='number'||!Number.isFinite(v)||v<=min||v>max)throw Error(`${label}需大於 ${min}，且不超過 ${max}。`);return v;
 }
+export function diagramProjection({distance,height},eye,scale=32){
+ number(distance,'水平距離',0,300);number(height,'圖解樹高',0,303);number(eye,'眼高',0,3);number(scale,'圖解比例',0,96);
+ const ground=385,treeX=570;
+ return {scale,ground,treeX,observerX:treeX-distance*scale,eyeY:ground-eye*scale,topY:ground-height*scale,personScale:eye*scale/80};
+}
 export function geometry({steps,length,eye,mode='explore',fixedHeight=9.3,level=true,aligned=false,calibrated=true,instrument=null}){
  if(mode==='clinometer'){
   const g=validateInstrument(instrument);if(conditionReview(instrument.condition).requiresReview)throw Error('樹形待複核，不能直接套用正常單幹模型。');

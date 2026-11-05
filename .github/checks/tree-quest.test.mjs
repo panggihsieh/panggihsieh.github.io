@@ -1,9 +1,17 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {geometry,carbon,DEMO,FORMULA,SOURCE,validateRecord,parseRecords,summarize,latestRecords,csvCell} from '../../dist/school3d/tree/quest-core.js';
+import {geometry,diagramProjection,carbon,DEMO,FORMULA,SOURCE,validateRecord,parseRecords,summarize,latestRecords,csvCell} from '../../dist/school3d/tree/quest-core.js';
 const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,`${a} != ${b}`);
 near(geometry({steps:8,length:1,eye:1.3}).height,9.3);
 near(geometry({steps:8,length:.75,eye:1.3}).height,7.3);
+const originalPosition=diagramProjection(geometry({steps:8,length:1,eye:1.3}),1.3);
+const forwardPosition=diagramProjection(geometry({steps:7,length:1,eye:1.3}),1.3);
+const backPosition=diagramProjection(geometry({steps:9,length:1,eye:1.3}),1.3);
+assert.ok(forwardPosition.observerX>originalPosition.observerX);
+assert.ok(backPosition.observerX<originalPosition.observerX);
+near(forwardPosition.eyeY,originalPosition.eyeY);near(backPosition.personScale,originalPosition.personScale);
+near(originalPosition.treeX-originalPosition.observerX,originalPosition.eyeY-originalPosition.topY);
+near(diagramProjection(geometry({steps:8,length:1,eye:1.3}),1.3,16).personScale,originalPosition.personScale/2);
 const field={steps:8,length:1,eye:1.3,mode:'field',fixedHeight:9.3,aligned:true};
 assert.equal(geometry(field).valid,true);
 const moved=geometry({...field,steps:10});near(moved.height,9.3);assert.ok(moved.angle<45);assert.equal(moved.valid,false);
