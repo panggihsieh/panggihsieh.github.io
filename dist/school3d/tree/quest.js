@@ -1,3 +1,4 @@
+import {loadPlants} from './tree-source.js?v=20261107';
 import {overviewProjection} from './map-core.js?v=20261107';
 import {mountField} from './field-ui.js?v=20261029-ipad-1';
 import {geometry,diagramProjection,carbon,DEMO,FORMULA,SOURCE,validateRecord,parseRecords,summarize,latestRecords,csvCell} from './quest-core.js?v=20261105-movement-1';
@@ -98,7 +99,7 @@ function currentRows(source){
  // Use the latest observation per physical tree to avoid counting repeat surveys as new trees.
  return latestRecords(records,source==='demo').map(r=>({...r,co2Kg:r.result.co2Kg}));
 }
-function sourceOptions(value){return `<option value="platform" ${value==='platform'?'selected':''}>教育部平台校樹資料</option><option value="field" ${value==='field'?'selected':''}>我的實測紀錄（最新一次）</option><option value="demo" ${value==='demo'?'selected':''}>我的示範紀錄（獨立統計）</option>`;}
+function sourceOptions(value){return `<option value="platform" ${value==='platform'?'selected':''}>主站校樹資料（教育部來源）</option><option value="field" ${value==='field'?'selected':''}>我的實測紀錄（最新一次）</option><option value="demo" ${value==='demo'?'selected':''}>我的示範紀錄（獨立統計）</option>`;}
 function color(v){return v===null?'#8497a3':v>=500?'#1766bf':v>=200?'#229b73':'#d48029';}
 function mapPage(){
  const rows=currentRows(mapSource),list=mapSpecies?rows.filter(r=>r.species===mapSpecies):rows;
@@ -153,4 +154,4 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-step-targe
 window.addEventListener('pagehide',()=>{if(disposeField){disposeField();disposeField=null;}});
 window.addEventListener('pageshow',e=>{if(e.persisted)render();});
 window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0);});
-try{const r=await fetch('./plants.json');if(!r.ok)throw Error();plants=await r.json();if(!Array.isArray(plants)||plants.length!==127)throw Error();render();}catch{$('#main').innerHTML='<h1>校樹資料暫時無法載入</h1><p>請重新整理，或檢查 plants.json 是否隨網站一起發布。</p>';}
+try{const source=await loadPlants();plants=source.plants;if(!source.live)storageWarning='主站暫時無法連線，目前顯示本機隨附的歷史備份，並非即時主站資料。';render();const notice=document.createElement('p');notice.className='hint';notice.id='master-source-status';notice.textContent=source.live?'校樹主資料：school3d-site（本次開啟已讀取）。學生量測供截圖留存，不回傳主站。':'主站連線失敗：目前使用歷史備份。學生量測不回傳主站。';document.querySelector('footer').before(notice);}catch{$('#main').innerHTML='<h1>校樹資料暫時無法載入</h1><p>請重新整理，確認主站與備份資料可供讀取。</p>';}
