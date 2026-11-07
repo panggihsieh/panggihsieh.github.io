@@ -223,3 +223,10 @@ input[type=range]{min-height:44px!important;width:100%}
 .map-controls{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:14px;background:#f8fcff}.map-controls input{width:180px;max-width:45%;accent-color:#2176d2}.map-controls output{min-width:4ch}.map-scroll{overflow:auto;max-height:70vh;background:#eef4e7}.map-scroll.expanded svg{width:1600px;max-width:none;min-height:0}.map-scroll svg{min-height:0}.map-controls button{padding:10px 14px}.map-controls span{font-weight:700}
 
 .map-layout>div{min-width:0}.map-marker.selected{stroke:#112f42;stroke-width:2.5}
+
+.geometry-stage{position:relative;container-type:inline-size}
+.geometry-controls.tools{position:absolute;left:2%;bottom:1%;width:50%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;margin:0}
+.geometry-controls.tools button{min-height:28px;min-width:0;padding:5px 6px;font-size:clamp(10px,.9vw,13px);line-height:1.25;border-radius:9px}
+@media(max-width:760px){.geometry-controls.tools{position:static;width:auto;background:#d2e9d7;padding:10px}.geometry-controls.tools button{font-size:12px;min-height:44px}}
+
+@container(max-width:650px){.geometry-controls.tools{position:static;width:auto;background:#d2e9d7;padding:10px}.geometry-controls.tools button{font-size:12px;min-height:44px}}
